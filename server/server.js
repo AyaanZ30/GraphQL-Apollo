@@ -16,6 +16,8 @@ const typeDefs = `
         createUser(name : String!, 
         age : Int!, 
         isMarried : Boolean!) : User
+
+        deleteUser(id : ID!) : [User]
     }
 
     type User{                   
@@ -51,6 +53,12 @@ const resolvers = {
             }
             users.push(newUser);
             return newUser;
+        },
+        deleteUser : (parent, args) => {
+            const id = args.id;
+
+            users.filter((user) => user.id === id);
+            return users;
         }
     }
 };
