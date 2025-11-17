@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server"
 import {startStandaloneServer} from "@apollo/server/standalone"
 
-import users from './mockData'
+import {users} from './mockData.js'
 
 
 // backticks(``) for writing gql queries & code inside js file
@@ -42,13 +42,15 @@ const resolvers = {
         createUser : (parent, args) => {
             const {name, age, isMarried} = args;
 
+            let prevUser = users[users.length - 1];
             const newUser = {
-                id : (users.length + 1).toString(),
+                id : (Number(prevUser.id) + 1).toString(),
                 name : name,
                 age : age,
                 isMarried : isMarried,
             }
             users.push(newUser);
+            return newUser;
         }
     }
 };
