@@ -26,8 +26,31 @@ const typeDefs = `
     }
 `;
 
+// functions to actually execute the queries and mutations defined above
+// parent : allows you to access the args of the prev resolved query 
 const resolvers = {
+    Query : {
+        getUsers : () => {
+            return users;
+        },
+        getUserById : (parent, args) => {
+            const id = args.id;
+            return users.find((user) => user.id === id);
+        }
+    },
+    Mutation : {
+        createUser : (parent, args) => {
+            const {name, age, isMarried} = args;
 
+            const newUser = {
+                id : (users.length + 1).toString(),
+                name : name,
+                age : age,
+                isMarried : isMarried,
+            }
+            users.push(newUser);
+        }
+    }
 };
 
 // query root type not passed
