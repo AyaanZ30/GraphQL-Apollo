@@ -1,10 +1,39 @@
 import { ApolloServer } from "@apollo/server"
 import {startStandaloneServer} from "@apollo/server/standalone"
 
+import users from './mockData'
+
+
+// backticks(``) for writing gql queries & code inside js file
+// [User] : returns a list of objects of Users(with all fields)
+const typeDefs = `
+    type Query{
+        getUsers : [User]
+        getUserById(id : ID!) : User
+    }
+
+    type Mutation{
+        createUser(name : String!, 
+        age : Int!, 
+        isMarried : Boolean!) : User
+    }
+
+    type User{                   
+        id : ID
+        name : String
+        age : Int
+        isMarried : Boolean
+    }
+`;
+
+const resolvers = {
+
+};
+
 // query root type not passed
 const server = new ApolloServer({
-    typeDefs : None,
-    
+    typeDefs,
+    resolvers,
 });    
 
 const {url} = await startStandaloneServer(server, {
@@ -12,3 +41,7 @@ const {url} = await startStandaloneServer(server, {
 });
 
 console.log(`Server running on : ${url}`);
+
+
+// Query, Mutation (required for GraphQL schema)
+// typeDefs, resolvers (required to pass to ApolloServer)
