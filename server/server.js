@@ -57,7 +57,9 @@ const resolvers = {
         deleteUser : (parent, args) => {
             const id = args.id;
 
-            users.filter((user) => user.id === id);
+            const updatedUsers = users.filter((user) => user.id !== id);
+            users.length = 0;
+            users.push(...updatedUsers);
             return users;
         }
     }
